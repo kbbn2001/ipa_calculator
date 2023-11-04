@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'ipa_calculator_calculatePageWithCSV.dart';
+import 'ipa_calculator_favorite_sqlite.dart';
 import 'ipa_calculator_logPage.dart';
 
 class BackData {
@@ -73,6 +74,8 @@ class IpaCalculatorState extends State<IpaCalculator>{
   final _newTemperature = TextEditingController();
   final _newMoisture = TextEditingController();
 
+  final _titleName = TextEditingController();
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -129,6 +132,76 @@ class IpaCalculatorState extends State<IpaCalculator>{
           child: Column(
             //mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children:[
+                    ElevatedButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: true, //바깥 영역 터치시 닫을지 여부 결정
+                          builder: ((context) {
+                            return AlertDialog(
+                              title: const Text("즐겨찾기 추가."),
+                              content: Row(
+                                children: [
+                                  Text("즐겨찾기 명 : "),
+                                  Flexible(
+                                      child: TextField(
+                                        controller: _titleName,
+                                      ),
+                                  ),
+                                ],
+                              ),
+                              actions: <Widget>[
+                                Container(
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      final _favoriteModel = SqliteFavoriteModel();
+                                      _favoriteModel.InsertFavorite(IPAFavorite(
+                                          resultInputAmount : double.parse(_resultInputAmount!.text)
+                                          ,resultMoisture : double.parse(_resultMoisture!.text)
+                                          ,returnInputAmount : double.parse(_returnInputAmount!.text)
+                                          ,returnMoisture : double.parse(_returnMoisture!.text)
+                                          ,purifyInputIPA : double.parse(_purifyInputIPA!.text)
+                                          ,purifyInputWater : double.parse(_purifyInputWater!.text)
+                                          ,purifyTemperature : double.parse(_purifyTemperature!.text)
+                                          ,purifyMoisture : double.parse(_purifyMoisture!.text)
+                                          ,newTemperature : double.parse(_newTemperature!.text)
+                                          ,newMoisture : double.parse(_newMoisture!.text)
+                                          , log_date :  DateTime.now().toString()
+                                          , title : _titleName!.text
+                                      ));
+                                      Navigator.of(context).pop(); //창 닫기
+                                    },
+                                    child: Text("저장"),
+                                  ),
+                                ),
+                                Container(
+                                  child: ElevatedButton(
+                                    onPressed: () {
+
+                                      Navigator.of(context).pop(); //창 닫기
+                                    },
+                                    child: Text("취소"),
+                                  ),
+                                ),
+                              ],
+                            );
+                          }),
+                        );
+                      },
+                      child: const Text('즐겨찾기 추가'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+
+                      },
+                      child: const Text('즐겨찾기 불러오기'),
+                    ),
+                ]
+
+                ),
                 Container(
                   decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(Radius.circular(4)),
@@ -313,7 +386,6 @@ class IpaCalculatorState extends State<IpaCalculator>{
                 ),
                 Row(
                     children: [
-                      const ButtonSelectLogs(),
                       ButtonCalculateWithCSV(
                           resultInputAmountController : _resultInputAmount
                           , resultMoistureController : _resultMoisture
@@ -328,7 +400,12 @@ class IpaCalculatorState extends State<IpaCalculator>{
                       ),
                     ]
                 ),
-                Row(
+                const Row(
+                    children: [
+                      ButtonSelectLogs(),
+                    ]
+                ),
+                const Row(
                   children: [
                     //adContainer,
                   ],
