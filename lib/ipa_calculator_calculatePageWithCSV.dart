@@ -57,8 +57,46 @@ class ButtonCalculateWithCSV extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        _showCalculatePage(context);
+      onPressed: () async {
+        print('!!!!!');
+        print(resultInputAmountController.text);
+        print(resultMoistureController.text);
+        if(resultInputAmountController.text.isEmpty
+            || resultMoistureController.text.isEmpty
+            || returnInputAmountController.text.isEmpty
+            || returnMoistureController.text.isEmpty
+            || newTemperatureController.text.isEmpty
+            || newMoistureController.text.isEmpty
+            || purifyInputIPAController.text.isEmpty
+            || purifyInputWaterController.text.isEmpty
+            || purifyTemperatureController.text.isEmpty
+            || purifyMoistureController.text.isEmpty
+        ){
+          return await showDialog(
+            context: context,
+            barrierDismissible: true, //바깥 영역 터치시 닫을지 여부 결정
+            builder: ((context) {
+              return AlertDialog(
+                //title: Text("전체 내용은 필수값입니다."),
+                content: Text("전체 수치는 필수값입니다. 누락되지않게 입력해주세요."),
+                actions: <Widget>[
+                  Container(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(); //창 닫기
+                      },
+                      child: Text("확인"),
+                    ),
+                  ),
+                ],
+              );
+            }),
+          );
+        }
+        else{
+          _showCalculatePage(context);
+        }
+
       },
       child: const Text('Calculate(CSV)'),
     );
