@@ -86,6 +86,8 @@ class SqliteTestModel {
 
   Future<void> InsertLogs(Log item) async {
     final db = await database;
+    await db.execute("CREATE TABLE IF NOT EXISTS logs(resultInputAmount double, resultMoisture double, returnInputAmount double, returnMoisture double, purifyInputIPA double, purifyInputWater double, purifyTemperature double, purifyMoisture double, newTemperature double, newMoisture double"
+        ", log_date TEXT)");
     await db.insert(
         'logs',
         item.toMap()
