@@ -78,7 +78,7 @@ class ButtonCalculateWithCSV extends StatelessWidget {
             builder: ((context) {
               return AlertDialog(
                 //title: Text("전체 내용은 필수값입니다."),
-                content: Text("전체 수치는 필수값입니다. 누락되지않게 입력해주세요."),
+                content: Text("전체 수치는 필수값입니다. 모든 값을 입력해주세요."),
                 actions: <Widget>[
                   Container(
                     child: ElevatedButton(
