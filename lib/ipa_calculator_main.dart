@@ -126,7 +126,8 @@ class IpaCalculatorState extends State<IpaCalculator>{
           // the App.build method, and use it to set our appbar title.
           title: const Text('IPA calculator'),
         ),
-        body: Center(
+        body: SingleChildScrollView(
+          child: Center(
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.
           child: Column(
@@ -411,6 +412,7 @@ class IpaCalculatorState extends State<IpaCalculator>{
                   ],
                 ),
               ]
+          ),
           ),
         ),
       ),
