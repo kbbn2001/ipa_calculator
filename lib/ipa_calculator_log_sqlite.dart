@@ -80,7 +80,7 @@ class SqliteTestModel {
   Future<dynamic> SelectLogs() async {
     final db = await database;
     // testTable 테이블에 있는 모든 field 값을 maps에 저장한다.
-    final List<Map<String, dynamic>> maps = await db.query('logs');
+    final List<Map<String, dynamic>> maps = await db.query('logs', orderBy: 'log_date desc' );
     return maps.isNotEmpty ? maps : null;
   }
 
