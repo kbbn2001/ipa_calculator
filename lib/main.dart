@@ -21,7 +21,7 @@ Future<void> main() async {
 
   //local time
   var serverDate = DateTime.now();
-  var baseDate = DateTime(2023,09,01); //기준날짜
+  var baseDate = DateTime(2023,12,31); //기준날짜
 
   if(baseDate.compareTo(serverDate) >= 1){
     print("normal");
