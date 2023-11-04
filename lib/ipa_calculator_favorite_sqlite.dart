@@ -73,7 +73,7 @@ class SqliteFavoriteModel {
       version: 1,
       onCreate: (db, version) {
         return db.execute(
-          "CREATE TABLE favorate(title varchar(100), resultInputAmount double, resultMoisture double, returnInputAmount double, returnMoisture double, purifyInputIPA double, purifyInputWater double, purifyTemperature double, purifyMoisture double, newTemperature double, newMoisture double"
+          "CREATE TABLE favorite(title varchar(100), resultInputAmount double, resultMoisture double, returnInputAmount double, returnMoisture double, purifyInputIPA double, purifyInputWater double, purifyTemperature double, purifyMoisture double, newTemperature double, newMoisture double"
               ", log_date TEXT)",
         );
       },
@@ -89,10 +89,9 @@ class SqliteFavoriteModel {
 
   Future<void> InsertFavorite(IPAFavorite item) async {
     final db = await database;
-    await db.execute("CREATE TABLE IF NOT EXISTS favorate(title varchar(100), resultInputAmount double, resultMoisture double, returnInputAmount double, returnMoisture double, purifyInputIPA double, purifyInputWater double, purifyTemperature double, purifyMoisture double, newTemperature double, newMoisture double"
-        ", log_date TEXT)");
+    await db.execute("CREATE TABLE IF NOT EXISTS favorite(idx integer primary key  autoincrement,  title varchar(100), resultInputAmount double, resultMoisture double, returnInputAmount double, returnMoisture double, purifyInputIPA double, purifyInputWater double, purifyTemperature double, purifyMoisture double, newTemperature double, newMoisture double, log_date TEXT)");
     await db.insert(
-        'favorate',
+        'favorite',
         item.toMap()
     );
   }
