@@ -200,21 +200,22 @@ class _FavoritePageStatus extends State<FavoritePage> {
                                                           children: [
                                                             ElevatedButton(
                                                               onPressed: () {
-                                                                print('${snapshot.data[index]['title']}');
-                                                                print('${snapshot.data[index]['idx']}');
-                                                                resultInputAmountController?.text = '${snapshot.data[index]['resultInputAmount']}';
-                                                                resultMoistureController?.text = '${snapshot.data[index]['resultMoisture']}';
-                                                                returnInputAmountController?.text = '${snapshot.data[index]['returnInputAmount']}';
-                                                                returnMoistureController?.text = '${snapshot.data[index]['returnMoisture']}';
-                                                                newTemperatureController?.text = '${snapshot.data[index]['newTemperature']}';
-                                                                newMoistureController?.text = '${snapshot.data[index]['newMoisture']}';
-                                                                purifyInputIPAController?.text = '${snapshot.data[index]['purifyInputIPA']}';
-                                                                purifyInputWaterController?.text = '${snapshot.data[index]['purifyInputWater']}';
-                                                                purifyTemperatureController?.text = '${snapshot.data[index]['purifyTemperature']}';
-                                                                purifyMoistureController?.text = '${snapshot.data[index]['purifyMoisture']}';
+
                                                                 Navigator.pop(context);
 
                                                               }, child: Text('불러오기'),
+                                                            ),
+
+                                                            ElevatedButton(
+                                                              onPressed: () {
+                                                                print(snapshot.data[index]['idx']);
+                                                                int idx = int.parse('${snapshot.data[index]['idx']}');
+
+                                                                model.DeleteFavorite(idx);
+                                                                setState(() {
+
+                                                                });
+                                                              }, child: Text('삭제'),
                                                             ),
                                                           ],
                                                         )

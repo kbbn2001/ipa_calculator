@@ -96,13 +96,13 @@ class SqliteFavoriteModel {
     );
   }
 
-  Future<void> DeleteFavorite(List<int> whereArgs) async {
+  Future<void> DeleteFavorite(int idx) async {
     final db = await database;
 
     await db.delete(
         'favorite',
-        where: 'idx',
-        whereArgs: whereArgs
+        where: 'idx = ?',
+        whereArgs: [idx]
       );
 
   }
