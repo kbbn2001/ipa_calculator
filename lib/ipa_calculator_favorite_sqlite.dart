@@ -83,7 +83,7 @@ class SqliteFavoriteModel {
   Future<dynamic> SelectFavorite() async {
     final db = await database;
     // testTable 테이블에 있는 모든 field 값을 maps에 저장한다.
-    final List<Map<String, dynamic>> maps = await db.query('favorate', orderBy: 'title desc' );
+    final List<Map<String, dynamic>> maps = await db.query('favorite', orderBy: 'title desc' );
     return maps.isNotEmpty ? maps : null;
   }
 
@@ -95,5 +95,17 @@ class SqliteFavoriteModel {
         item.toMap()
     );
   }
+
+  Future<void> DeleteFavorite(List<int> whereArgs) async {
+    final db = await database;
+
+    await db.delete(
+        'favorite',
+        where: 'idx',
+        whereArgs: whereArgs
+      );
+
+  }
+
 
 }

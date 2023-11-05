@@ -8,6 +8,7 @@ import 'package:mysql1/mysql1.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'ipa_calculator_log_sqlite.dart';
+import 'ipa_calculator_check_dialog.dart';
 
 class ButtonCalculateWithCSV extends StatelessWidget {
   final TextEditingController resultInputAmountController;
@@ -72,26 +73,7 @@ class ButtonCalculateWithCSV extends StatelessWidget {
             || purifyTemperatureController.text.isEmpty
             || purifyMoistureController.text.isEmpty
         ){
-          return await showDialog(
-            context: context,
-            barrierDismissible: true, //바깥 영역 터치시 닫을지 여부 결정
-            builder: ((context) {
-              return AlertDialog(
-                //title: Text("전체 내용은 필수값입니다."),
-                content: Text("전체 수치는 필수값입니다. 모든 값을 입력해주세요."),
-                actions: <Widget>[
-                  Container(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop(); //창 닫기
-                      },
-                      child: Text("확인"),
-                    ),
-                  ),
-                ],
-              );
-            }),
-          );
+          return CheckDialog(context);
         }
         else{
           _showCalculatePage(context);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'ipa_calculator_calculatePageWithCSV.dart';
+import 'ipa_calculator_favoritePage.dart';
 import 'ipa_calculator_favorite_sqlite.dart';
 import 'ipa_calculator_logPage.dart';
 
@@ -142,64 +143,99 @@ class IpaCalculatorState extends State<IpaCalculator>{
                           context: context,
                           barrierDismissible: true, //바깥 영역 터치시 닫을지 여부 결정
                           builder: ((context) {
-                            return AlertDialog(
-                              title: const Text("즐겨찾기 추가."),
-                              content: Row(
-                                children: [
-                                  Text("즐겨찾기 명 : "),
-                                  Flexible(
+                            if(_resultInputAmount!.text.isEmpty
+                                ||  _resultMoisture!.text.isEmpty
+                                ||  _returnInputAmount!.text.isEmpty
+                                ||  _returnMoisture!.text.isEmpty
+                                ||  _purifyInputIPA!.text.isEmpty
+                                ||  _purifyInputWater!.text.isEmpty
+                                ||  _purifyTemperature!.text.isEmpty
+                                ||  _purifyMoisture!.text.isEmpty
+                                ||  _newTemperature!.text.isEmpty
+                                ||  _newMoisture!.text.isEmpty
+                            ){
+                              return AlertDialog(
+                                //title: Text("전체 내용은 필수값입니다."),
+                                content: Text("전체 수치는 필수값입니다. 모든 값을 입력해주세요."),
+                                actions: <Widget>[
+                                  Container(
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop(); //창 닫기
+                                      },
+                                      child: Text("확인"),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }
+                            else{
+                              return AlertDialog(
+                                title: const Text("즐겨찾기 추가."),
+                                content: Row(
+                                  children: [
+                                    Text("즐겨찾기 명 : "),
+                                    Flexible(
                                       child: TextField(
                                         controller: _titleName,
                                       ),
+                                    ),
+                                  ],
+                                ),
+                                actions: <Widget>[
+                                  Container(
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        final _favoriteModel = SqliteFavoriteModel();
+                                        _favoriteModel.InsertFavorite(IPAFavorite(
+                                            resultInputAmount : double.parse(_resultInputAmount!.text)
+                                            ,resultMoisture : double.parse(_resultMoisture!.text)
+                                            ,returnInputAmount : double.parse(_returnInputAmount!.text)
+                                            ,returnMoisture : double.parse(_returnMoisture!.text)
+                                            ,purifyInputIPA : double.parse(_purifyInputIPA!.text)
+                                            ,purifyInputWater : double.parse(_purifyInputWater!.text)
+                                            ,purifyTemperature : double.parse(_purifyTemperature!.text)
+                                            ,purifyMoisture : double.parse(_purifyMoisture!.text)
+                                            ,newTemperature : double.parse(_newTemperature!.text)
+                                            ,newMoisture : double.parse(_newMoisture!.text)
+                                            , log_date :  DateTime.now().toString()
+                                            , title : _titleName!.text
+                                        ));
+                                        Navigator.of(context).pop(); //창 닫기
+                                      },
+                                      child: Text("저장"),
+                                    ),
+                                  ),
+                                  Container(
+                                    child: ElevatedButton(
+                                      onPressed: () {
+
+                                        Navigator.of(context).pop(); //창 닫기
+                                      },
+                                      child: Text("취소"),
+                                    ),
                                   ),
                                 ],
-                              ),
-                              actions: <Widget>[
-                                Container(
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      final _favoriteModel = SqliteFavoriteModel();
-                                      _favoriteModel.InsertFavorite(IPAFavorite(
-                                          resultInputAmount : double.parse(_resultInputAmount!.text)
-                                          ,resultMoisture : double.parse(_resultMoisture!.text)
-                                          ,returnInputAmount : double.parse(_returnInputAmount!.text)
-                                          ,returnMoisture : double.parse(_returnMoisture!.text)
-                                          ,purifyInputIPA : double.parse(_purifyInputIPA!.text)
-                                          ,purifyInputWater : double.parse(_purifyInputWater!.text)
-                                          ,purifyTemperature : double.parse(_purifyTemperature!.text)
-                                          ,purifyMoisture : double.parse(_purifyMoisture!.text)
-                                          ,newTemperature : double.parse(_newTemperature!.text)
-                                          ,newMoisture : double.parse(_newMoisture!.text)
-                                          , log_date :  DateTime.now().toString()
-                                          , title : _titleName!.text
-                                      ));
-                                      Navigator.of(context).pop(); //창 닫기
-                                    },
-                                    child: Text("저장"),
-                                  ),
-                                ),
-                                Container(
-                                  child: ElevatedButton(
-                                    onPressed: () {
-
-                                      Navigator.of(context).pop(); //창 닫기
-                                    },
-                                    child: Text("취소"),
-                                  ),
-                                ),
-                              ],
-                            );
+                              );
+                            }
                           }),
                         );
                       },
                       child: const Text('즐겨찾기 추가'),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-
-                      },
-                      child: const Text('즐겨찾기 불러오기'),
+                    ButtonSelectFavorite(
+                        resultInputAmountController : _resultInputAmount
+                        , resultMoistureController : _resultMoisture
+                        , returnInputAmountController : _returnInputAmount
+                        , returnMoistureController : _returnMoisture
+                        , newTemperatureController : _newTemperature
+                        , newMoistureController : _newMoisture
+                        , purifyInputIPAController : _purifyInputIPA
+                        , purifyInputWaterController : _purifyInputWater
+                        , purifyTemperatureController: _purifyTemperature
+                        , purifyMoistureController : _purifyMoisture
                     ),
+
                 ]
 
                 ),
