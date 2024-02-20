@@ -21,7 +21,7 @@ Future<void> main() async {
 
   //local time
   var serverDate = DateTime.now();
-  var baseDate = DateTime(2023,12,31); //기준날짜
+  var baseDate = DateTime(2024,12,31); //기준날짜
 
   if(baseDate.compareTo(serverDate) >= 1){
     print("normal");
@@ -59,18 +59,30 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         title: 'IPA',
-        home: Scaffold(
-            appBar: AppBar(
-              title: const Text('IPA'),
-            ),
-            body: const Center(
-                child: Column(
-                    children: [
-                      ButtonIPACalculator(),
-                      ButtonIPAError()
-                    ]
-                )
-            )
+        home: WillPopScope(
+          onWillPop: () async {
+            print("button 막아64");
+            return false;
+          },
+          child: Scaffold(
+              appBar: AppBar(
+                title: const Text('IPA'),
+              ),
+              body: Center(
+                  child: Column(
+                      children: [
+                        WillPopScope(
+                            onWillPop: () async {
+                              print("back button 수치입력부분");
+                              return false;
+                            },
+                            child: ButtonIPACalculator()
+                        ),
+                        ButtonIPAError()
+                      ]
+                  )
+              )
+          ),
         )
 
     );
@@ -104,19 +116,19 @@ class MyAppFalse extends StatelessWidget {
           useMaterial3: true,
         ),
         title: 'IPA',
-        home: Scaffold(
-            appBar: AppBar(
-              title: const Text('IPA'),
-            ),
-            body: const Center(
-                child: Column(
-                    children: [
-                      Text("실행 할 수 없습니다. 관리자에게 문의하세요")
-                    ]
-                )
-            )
-        )
-
+        home:
+          Scaffold(
+              appBar: AppBar(
+                title: const Text('IPA'),
+              ),
+              body: const Center(
+                  child: Column(
+                      children: [
+                        Text("실행 할 수 없습니다. 관리자에게 문의하세요")
+                      ]
+                  )
+              )
+          ),
     );
   }
 }
